@@ -1,6 +1,9 @@
 <head>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
+<div class="overlay">
+    <div class="loader"></div>
+</div>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light ">
@@ -285,22 +288,31 @@
 
             </div>
             <br>
-            <div class="row">
-                <button class="submit button" onclick="submitForm()">Submit</button>
-                <button class="submit2 button" id="cancel">Cancel</button>
-            </div>
-        </form>
 
+        </form>
+        <div class="row">
+            <button class="submit button" onclick="submitForm()">Submit</button>
+            <button class="submit2 button" id="cancel" onclick='window.location="../"'>Cancel</button>
+        </div>
     </div>
     <nav class="navbar sticky-bottom navbar-light bg-light ">
         <p style="color:#dc3545f2;font-size:13px;padding-top:10px;color:white;"> Copyright © Pranavam Matrimony 2019</p>
     </nav>
+    <div class="" id="load1">
+        <div class="loading-wheel" id="load2"></div>
+    </div>
     <script>
         function submitForm() {
             var pw1 = document.getElementById('password1').value;
             var pw2 = document.getElementById('password2').value;
+            var load1 = document.getElementById('load1');
+            var load2 = document.getElementById('load2');
             if (pw1 == pw2) {
-                document.getElementsById('submit').submit();
+
+                load1.className += "loading style-2";
+                document.getElementById('register').submit();
+                
+                
             } else {
                 document.getElementById('error').innerHTML = "Passwords do not match!!"
             }

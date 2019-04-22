@@ -79,10 +79,10 @@ router.post('/register', cpUpload, async (req, res) => {
         const newUser = new User({
           fname, lname, phone, email, dob, religion, caste, subcaste, password, mothertongue, marital, height, financial, horo1, type, values, education, employed, about, photo1, photo2, photo3, photo4
         });
-        if (req.files['doc1'][1].buffer) {
+        if (req.files['doc1'][1]) {
           newUser.horo2 = req.files['doc1'][1].buffer;
         }
-        if (req.files['doc1'][2].buffer) {
+        if (req.files['doc1'][2]) {
           newUser.horo3 = req.files['doc1'][2].buffer;
         }
 
