@@ -155,6 +155,9 @@ td{
     font-size:1vw;
 }
 @media only screen and (max-width: 600px){
+    .sms{
+        margin-top:30px;
+    }
     .login{
         height:15vh;
         margin:5px;
@@ -183,6 +186,15 @@ td{
     }
     .footer{
         visibility: hidden;
+    }
+    .register{background-color:#a59d9d26;
+        margin:0px;
+        padding-bottom:50px;
+    
+    }
+    .submit2{
+        background-color: grey;
+        margin-left:30px;
     }
 }
 input[type=text]{

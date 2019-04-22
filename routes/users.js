@@ -7,7 +7,12 @@ const multer = require('multer')
 const sharp = require('sharp')
 const path = require('path')
 var moment = require('moment');
-
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SEND_GRID_API);
+const authkey = process.env.msg91;
+const senderid = 'PNVMAT';
+const route = '4';
+const dialcode = '91';
 
 // Load User model
 const User = require('../models/User');
@@ -15,7 +20,7 @@ const { forwardAuthenticated } = require('../config/auth');
 const storage = multer.diskStorage({
   destination: './public/uploads/',
   filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
   }
 });
 const upload = multer({
@@ -36,8 +41,8 @@ router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/register', forwardAuthenticated, (req, res) => res.render('form'));
 
 // Register
-var cpUpload = upload.fields([{ name: 'photo1', maxCount: 1 }, { name: 'photo2', maxCount: 1 }, { name: 'photo3', maxCount: 1 }, { name: 'photo4', maxCount: 1 },{ name:'doc1', maxCount:3}])
-router.post('/register',cpUpload,async (req, res) => {
+var cpUpload = upload.fields([{ name: 'photo1', maxCount: 1 }, { name: 'photo2', maxCount: 1 }, { name: 'photo3', maxCount: 1 }, { name: 'photo4', maxCount: 1 }, { name: 'doc1', maxCount: 3 }])
+router.post('/register', cpUpload, async (req, res) => {
   var photo1 = await sharp(req.files['photo1'][0].buffer).resize({ width: 250, height: 250 }).png().toBuffer()
   var photo2 = await sharp(req.files['photo2'][0].buffer).resize({ width: 250, height: 250 }).png().toBuffer()
   var photo3 = await sharp(req.files['photo3'][0].buffer).resize({ width: 250, height: 250 }).png().toBuffer()
@@ -74,10 +79,10 @@ router.post('/register',cpUpload,async (req, res) => {
         const newUser = new User({
           fname, lname, phone, email, dob, religion, caste, subcaste, password, mothertongue, marital, height, financial, horo1, type, values, education, employed, about, photo1, photo2, photo3, photo4
         });
-        if(req.files['doc1'][1].buffer){
+        if (req.files['doc1'][1].buffer) {
           newUser.horo2 = req.files['doc1'][1].buffer;
         }
-        if(req.files['doc1'][2].buffer){
+        if (req.files['doc1'][2].buffer) {
           newUser.horo3 = req.files['doc1'][2].buffer;
         }
 
@@ -88,6 +93,20 @@ router.post('/register',cpUpload,async (req, res) => {
             newUser
               .save()
               .then(user => {
+                const msg = {
+                  to: user.email,
+                  from: 'adityavadityav@gmail.com',
+                  subject: 'Registration completed',
+                  html: `<p>Thank you <b>${user.fname}. ${user.lname}</b>.Your registration has been completed.You can now login to edit you details.We will contact you soon <br><br><br>
+                  Thank you,<br>
+                  <b>Pranavam Matrimony</b></p>`,
+                }
+                var message = `Thank you ${user.fname}.${user.lname}. Your registeration is completed. We will contact you soon.`;
+                // msg91.sendOne(authkey, user.phone, message, senderid, route, dialcode, function (response) {
+                  sgMail.send(msg).then(resp => console.log(resp)).catch(err => console.log(err));
+                  //Returns Message ID, If Sent Successfully or the appropriate Error Message
+                  // console.log(response);
+                // });
                 req.flash(
                   'success_msg',
                   'You are now registered and can log in'
@@ -105,23 +124,19 @@ router.get('/getInfo/:id', (req, res) => {
   User.findOne({ "_id": req.params.id }).then((result) => {
     res.render('info', {
       user: result,
-      moment:moment
+      moment: moment
     });
   })
 })
 router.post('/instantQuery', (req, res) => {
   console.log(req.body);
-  // var authkey = '273052AnxgNNYj5cb8b8ae';
-  // var number = '9567682232';
-  // var message = `${req.body.name} from ${req.body.state} is asking help.Please contact him through ${req.body.phone} or ${req.body.email}`;
-  // var senderid = 'TESTIN';
-  // var route = '4';
-  // var dialcode = '91';
-  // msg91.sendOne(authkey, number, message, senderid, route, dialcode, function (response) {
+  var number = '9567682232';
+  var message = `${req.body.name} from ${req.body.state} is asking help.Please contact him through ${req.body.phone} or ${req.body.email}`;
+  msg91.sendOne(authkey, number, message, senderid, route, dialcode, function (response) {
 
-  //   //Returns Message ID, If Sent Successfully or the appropriate Error Message
-  //   console.log(response);
-  // });
+    //Returns Message ID, If Sent Successfully or the appropriate Error Message
+    console.log(response);
+  });
   res.redirect('../');
 })
 

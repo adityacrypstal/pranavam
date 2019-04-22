@@ -1,5 +1,5 @@
 const express = require('express');
-require('dotenv/config');
+
 var msg91=require('msg91-sms');
 const query = require('../controllers/query');
 const router = express.Router();
