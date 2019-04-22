@@ -1,0 +1,106 @@
+<head>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+    <div class="container register">
+        <H1><%=user.fname%>. <%=user.lname%></H1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="email">First name:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.fname%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Last name:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.lname%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Phone:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.phone%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.email%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Age:</label>
+                    <input type="email" class="form-control" id="email" value='<%=moment().diff(user.dob, "years");%>' disabled>
+                </div>
+                <div class="form-group">
+                        <label for="email">Date of Birth:</label>
+                        <input type="email" class="form-control" id="email" value='<%=user.dob%>' disabled>
+                    </div>
+                <div class="form-group">
+                    <label for="email">Religion:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.religion%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Caste:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.caste%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Sub caste:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.subcaste%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Mother Tongue:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.mothertongue%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Height:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.height%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Financial:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.financial%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Family Type:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.type%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Family Values:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.values%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Education</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.education%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Employed On:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.employed%>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">About:</label>
+                    <input type="email" class="form-control" id="email" value="<%=user.about%>" disabled>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <h2>Photos</h2>
+                <img src="data:image/png;base64,<%=user.photo1.toString('base64')%>" class="img-responsive" alt="">
+                <img src="data:image/png;base64,<%=user.photo2.toString('base64')%>" class="img-responsive" alt="">
+                <img src="data:image/png;base64,<%=user.photo3.toString('base64')%>" class="img-responsive" alt="">
+                <img src="data:image/png;base64,<%=user.photo4.toString('base64')%>" class="img-responsive" alt="">
+
+                <br>
+                <br>
+                <h2>Horoscope</h2>
+                <img src="data:image/png;base64,<%=user.horo1.toString('base64')%>" class="img-responsive" alt="">
+                <%if(user.horo2){%>
+                <img src="data:image/png;base64,<%=user.horo2.toString('base64')%>" class="img-responsive" alt="">
+                <%}%>
+                <%if(user.horo3){%>
+                <img src="data:image/png;base64,<%=user.horo3.toString('base64')%>" class="img-responsive" alt="">
+                <%}%>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</body>
+
+</html>

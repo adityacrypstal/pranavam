@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Questrial|Rubik" rel="stylesheet">
+    <title>Pranavam matrimony!</title>
+</head>
+
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" href="#"><b style="letter-spacing:5px;">PRANAVAM</b><sub>matrimony</sub></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+
+
+                <li class="nav-item">
+                    <a class="nav-link " href="./users/logout" tabindex="-1" aria-disabled="true">Logout</a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row filter">
+            <form action="./filter" method="POST" id="filter">
+                <div class="form-group col-md-3">
+                    <select class="form-control" id="exampleFormControlSelect1" name="caste">
+                        <option value="null">Select Caste</option>
+                        <option value="nair">Nair</option>
+                        <option value="ezhava">Ezhava</option>
+                        <option value="deevars">Dheevars</option>
+                        <option value="brahmins">Brahmins</option>
+                        <option value="namboothiri">Nambootiri</option>
+                        <option value="shia">Shia</option>
+                        <option value="syro malabar">Syro Malabar</option>
+                        <option value="syro malankara">Syro Malankara</option>
+                        <option value="syro orthodox">Syro Orthodox</option>
+                        <option value="syro jacobite">Syro Jacobite</option>
+                        <option value="syro marthoma">Syro Marthoma</option>
+                        <option value="vaishyas">Vaishyas</option>
+                        <option value="kudumbi">Kudumbi</option>
+                        <option value="vishvakarma">Vishvakarma</option>
+                        <option value="buddhist">Buddhist</option>
+                        <option value="jews">Jews</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <select class="form-control" id="exampleFormControlSelect2" name="religion">
+                            <option value="null">Select Religion</option>
+                            <option value="hindu">Hindu</option>
+                            <option value="muslim">Muslim</option>
+                            <option value="christian">Christian</option>
+                            <option value="inter">Inter religion</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <select  class="form-control" id="exampleFormControlSelect3" name="marital">
+                        <option value="null">Marital status</option>
+                        <option value="never married">Never married</option>
+                        <option value="divorced">Divorced</option>
+                        <option value="widowed">Widowed</option>
+                        <option value="awaiting divorce">Waiting for divorce</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <select  class="form-control" id="exampleFormControlSelect4" name="mothertongue">
+                            <option value="null">Select Mother Tongue</option>
+                            <option value="hindi">Hindi</option>
+                            <option value="tamil">Tamil</option>
+                            <option value="kannada">Kannada</option>
+                            <option value="telugu">Telugu</option>
+                            <option value="malayalam">Malayalam</option>
+                            <option value="gujarati">Gujarati</option>
+                            <option value="bengali">Bengali</option>
+                            <option value="punjabi">Punjabi</option>
+                            <option value="urudu">Urudu</option>
+                            <option value="sanskrit">Sanskrit</option>
+                            <option value="english">English</option>
+                            <option value="sindhi">Sindhi</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-1">
+                    <button class="form1" onclick="submitForm()">Filter</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Caste</th>
+                        <th scope="col">Language</th>
+                        <th scope="col">Religion</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Financial</th>
+                        <th scope="col">Employed</th>
+                        <th scope="col">Marital Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%users.reverse().forEach(function(user, id){%>
+                   
+                            <tr>
+                                    <th scope="row"><%=id+1%></th>
+                                    <td><%=user.fname%>.<%=user.lname%></td>
+                                    <td><%=user.caste%></td>
+                                    <td><%=user.mothertongue%></td>
+                                    <td><%=user.religion%></td>
+                                    <td><%=user.phone%></td>
+                                    <td><%=user.financial%></td>
+                                    <td><%=user.employed%></td>
+                                    <td><%=user.marital%></td>
+                                    <td> <a target="_blank" href="../users/getInfo/<%=user._id%>"><button>More</button></a></td>
+                                </tr>
+                   
+                    <%})%>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <script>
+    function submitForm(){
+        document.getElementById('filter').submit();
+    }
+    </script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

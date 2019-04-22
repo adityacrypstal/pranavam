@@ -1,0 +1,104 @@
+<head>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" href="#"><b style="letter-spacing:5px;">PRANAVAM</b><sub>matrimony</sub></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal">Contact</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="./users/login" tabindex="-1" aria-disabled="true">Login</a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    <section id="landing">
+        <p class="text-center landing-text "> Find you perfect partner from over <br> thousands of <span
+                style="color:#dc3545f2">profiles</span></p>
+        <br><button class="button" onclick="location.href = '../users/register';">FREE REGISTER</button>
+
+    </section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="login">
+                <p class="already"><b>A</b>lready a member ? then please <span
+                        style="text-decoration:underline;color:#dc3545f2"><a href="./users/login">login</a></span> </p>
+            </div>
+        </div>
+    </div>
+    <section class="query">
+        <div class="container">
+
+            <div class="row quer1">
+                <div class="col-sm quer2">
+                    <h1 class="hurr">
+                        In a Hurry ?
+                    </h1>
+                </div>
+                <div class="col-sm">
+                    <p class="text-left">Don't Worry !<br>Please fill out the details</p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <form action="./users/instantQuery" method="POST" id="instantQuery">
+                    <div class="form-group col-md-3">
+                        <input type="text" placeholder="Name" name="name">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <input type="text" placeholder="Phone" name="phone">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="email" placeholder="Email" name="email">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="text" placeholder="State" name="state">
+                    </div>
+                    <div class="form-group col-md-1">
+                        <button class="form " onclick="submitForm()">Submit</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </section>
+    <nav class="navbar sticky-bottom navbar-light bg-light footer">
+        <p style="color:#dc3545f2;font-size:13px;padding-top:10px;color:white;"> Copyright © Pranavam Matrimony 2019</p>
+    </nav>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <p><b>Phone</b>: +91 9567682232, +91 9895463296</p>
+                            <p><b>Email</b>: adityavadityav@gmail.com</p>
+                            <p><b>Address</b>: Pranavam Matrimony, Sooranad,Kollam, Kerala</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function submitForm() {
+        document.getElementById('instantQuery').submit();
+    }
+</script>
+
+</html>
