@@ -13,7 +13,10 @@ const authkey = process.env.msg91;
 const senderid = 'PNVMAT';
 const route = '4';
 const dialcode = '91';
-
+const textedSVG = new Buffer(`<svg>
+     <rect x="0" y="0" width="200" height="200" />
+     <text x="10" y="76" font-size="74" fill="#fff">`+'Pranavam'+`</text>
+   </svg>`);
 // Load User model
 const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
@@ -93,6 +96,14 @@ router.post('/register', cpUpload, async (req, res) => {
             newUser
               .save()
               .then(user => {
+                const msg2 = {
+                  to: 'matrimonypranavam@gmail.com',
+                  from: 'matrimonypranavam@gmail.com',
+                  subject: 'New User Registered.',
+                  html: `<p> <b>${user.fname}. ${user.lname}</b> registered to Pranavam Matrimony.Please find details at admin panel. <br><br><br>
+                  Thank you,<br>
+                  <b>Pranavam Matrimony</b></p>`,
+                }
                 const msg = {
                   to: user.email,
                   from: 'matrimonypranavam@gmail.com',
@@ -104,6 +115,7 @@ router.post('/register', cpUpload, async (req, res) => {
                 var message = `Thank you ${user.fname}.${user.lname}. Your registeration is completed. We will contact you soon.`;
                 msg91.sendOne(authkey, user.phone, message, senderid, route, dialcode, function (response) {
                   sgMail.send(msg).then(resp => console.log(resp)).catch(err => console.log(err));
+                  sgMail.send(msg2).then(resp => console.log(resp)).catch(err => console.log(err));
                   //Returns Message ID, If Sent Successfully or the appropriate Error Message
                   console.log(response);
                 });
