@@ -143,7 +143,7 @@ router.post('/instantQuery', (req, res) => {
 // Login
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', {
-    successRedirect: '/profile',
+    successRedirect: '/dashboard',
     failureRedirect: '/users/login',
     failureFlash: true
   })(req, res, next);
