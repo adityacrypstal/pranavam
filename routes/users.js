@@ -95,7 +95,7 @@ router.post('/register', cpUpload, async (req, res) => {
               .then(user => {
                 const msg = {
                   to: user.email,
-                  from: 'adityavadityav@gmail.com',
+                  from: 'matrimonypranavam@gmail.com',
                   subject: 'Registration completed',
                   html: `<p>Thank you <b>${user.fname}. ${user.lname}</b>.Your registration has been completed.You can now login to edit you details.We will contact you soon <br><br><br>
                   Thank you,<br>

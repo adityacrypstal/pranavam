@@ -13,23 +13,18 @@ router.get('/', forwardAuthenticated, (req, res) => res.render('index'));
 
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) =>{
-//   var authkey='273052AnxgNNYj5cb8b8ae';
-//   var number='9567682232';
-//   var message='Testing';
-//   var senderid='TESTIN';
-//   var route='4';
-//   var dialcode='91';
-// msg91.sendOne(authkey,number,message,senderid,route,dialcode,function(response){
- 
-//   //Returns Message ID, If Sent Successfully or the appropriate Error Message
-//   console.log(response);
-//   });
 console.log(process.env.MONGO);
   query.getUsers((err, users)=>{
-    res.render('admin', {
-      user: req.user,
-      users:users,
-    })
+    if(req.user.email == 'adityavadityav@gmail.com'){
+      res.render('admin', {
+        user: req.user,
+        users:users,
+      })
+    }else{
+      res.render('profile', {
+        user: req.user
+      })
+    }
   });
   
 }
