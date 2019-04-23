@@ -102,11 +102,11 @@ router.post('/register', cpUpload, async (req, res) => {
                   <b>Pranavam Matrimony</b></p>`,
                 }
                 var message = `Thank you ${user.fname}.${user.lname}. Your registeration is completed. We will contact you soon.`;
-                // msg91.sendOne(authkey, user.phone, message, senderid, route, dialcode, function (response) {
+                msg91.sendOne(authkey, user.phone, message, senderid, route, dialcode, function (response) {
                   sgMail.send(msg).then(resp => console.log(resp)).catch(err => console.log(err));
                   //Returns Message ID, If Sent Successfully or the appropriate Error Message
-                  // console.log(response);
-                // });
+                  console.log(response);
+                });
                 req.flash(
                   'success_msg',
                   'You are now registered and can log in'
@@ -143,7 +143,7 @@ router.post('/instantQuery', (req, res) => {
 // Login
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', {
-    successRedirect: '/dashboard',
+    successRedirect: '/profile',
     failureRedirect: '/users/login',
     failureFlash: true
   })(req, res, next);

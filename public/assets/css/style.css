@@ -197,9 +197,7 @@ td{
         margin-left:30px;
     }
 }
-input[type=text]{
-    text-transform: uppercase;
-}
+
 input[type="file"] { 
     z-index: -1;
     position: absolute;

@@ -34,6 +34,12 @@ console.log(process.env.MONGO);
   
 }
 );
+router.get('/profile',(req, res)=>{
+  console.log(req.user);
+  res.render('profile', {
+    user: req.user,
+  })
+})
 router.post('/filter', (req, res)=>{
   var query = {};
   if(req.body.caste != 'null'){

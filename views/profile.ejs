@@ -1,0 +1,370 @@
+<head>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<div class="overlay">
+    <div class="loader"></div>
+</div>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" href="../"><b style="letter-spacing:5px;">PRANAVAM</b><sub>matrimony</sub></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+
+
+
+            </ul>
+
+        </div>
+    </nav>
+    <div class="container register">
+        <% include ./partials/messages %>
+        <form action="../users/register" method="POST" id="register" enctype="multipart/form-data">
+            <div class="row">
+                <p class="step">Primary Info</p>
+            </div>
+            <hr>
+            <br>
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="First name" name="fname"
+                        value="<%=user.fname%>" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Last name" name="lname" value="<%=user.lname%>"
+                        required>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Phone" name="phone" value="<%=user.phone%>"
+                        required>
+                </div>
+                <div class="col-md-3">
+                    <input type="email" class="form-control" placeholder="Email" name="email" value="<%=user.email%>"
+                        required>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='date' class="form-control" name="dob" value="<%=user.dob%>">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" id="exampleFormControlSelect1" name="religion" required>
+                        <option value="null" <%= (user.religion == 'null') ? "SELECTED" : "" %>>Select Religion</option>
+                        <option value="hindu" <%= (user.religion == 'hindu') ? "SELECTED" : "" %>>Hindu</option>
+                        <option value="muslim" <%= (user.religion == 'muslim') ? "SELECTED" : "" %>>Muslim</option>
+                        <option value="christian" <%= (user.religion == 'christiam') ? "SELECTED" : "" %>>Christian
+                        </option>
+                        <option value="inter" <%= (user.religion == 'inter') ? "SELECTED" : "" %>>Inter religion
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" id="exampleFormControlSelect1" name="caste" required>
+                        <option value="null" <%= (user.caste == 'null') ? "SELECTED" : "" %>>Select Caste</option>
+                        <option value="nair" <%= (user.caste == 'nair') ? "SELECTED" : "" %>>Nair</option>
+                        <option value="ezhava" <%= (user.caste == 'ezhava') ? "SELECTED" : "" %>>Ezhava</option>
+                        <option value="deevars" <%= (user.caste == 'deevars') ? "SELECTED" : "" %>>Dheevars</option>
+                        <option value="brahmins" <%= (user.caste == 'brahmins') ? "SELECTED" : "" %>>Brahmins</option>
+                        <option value="namboothiri" <%= (user.caste == 'namboothiri') ? "SELECTED" : "" %>>Nambootiri
+                        </option>
+                        <option value="shia" <%= (user.caste == 'shia') ? "SELECTED" : "" %>>Shia</option>
+                        <option value="syro malabar" <%= (user.caste == 'syro malabar') ? "SELECTED" : "" %>>Syro
+                            Malabar</option>
+                        <option value="syro malankara" <%= (user.caste == 'syro malankara') ? "SELECTED" : "" %>>Syro
+                            Malankara</option>
+                        <option value="syro orthodox" <%= (user.caste == 'syro orthodox') ? "SELECTED" : "" %>>Syro
+                            Orthodox</option>
+                        <option value="syro jacobite" <%= (user.caste == 'syro jacobite') ? "SELECTED" : "" %>>Syro
+                            Jacobite</option>
+                        <option value="syro marthoma" <%= (user.caste == 'syro marthoma') ? "SELECTED" : "" %>>Syro
+                            Marthoma</option>
+                        <option value="vaishyas" <%= (user.caste == 'vaishyas') ? "SELECTED" : "" %>>Vaishyas</option>
+                        <option value="kudumbi" <%= (user.caste == 'kudumbi') ? "SELECTED" : "" %>>Kudumbi</option>
+                        <option value="vishvakarma" <%= (user.caste == 'vishvakarma') ? "SELECTED" : "" %>>Vishvakarma
+                        </option>
+                        <option value="buddhist" <%= (user.caste == 'buddhist') ? "SELECTED" : "" %>>Buddhist</option>
+                        <option value="jews" <%= (user.caste == 'jews') ? "SELECTED" : "" %>>Jews</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="subcaste"
+                        value='<%=(user.subcaste) ? user.subcaste : ""%>' placeholder="Sub caste">
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="password" class="form-control" name="password1" placeholder=" New Password"
+                        id="password1" required>
+                    <p style="color:red" id="error"></p>
+                </div>
+                <div class="col-md-4">
+                    <input type="password" class="form-control" name="password2" placeholder="Confirm Password"
+                        id="password2" required>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control" id="exampleFormControlSelect1" name="mothertongue" required>
+                        <option value="null" <%= (user.mothertongue == 'null') ? "SELECTED" : "" %>>Select Mother Tongue
+                        </option>
+                        <option value="hindi" <%= (user.mothertongue == 'hindi') ? "SELECTED" : "" %>>Hindi</option>
+                        <option value="tamil" <%= (user.mothertongue == 'tamil') ? "SELECTED" : "" %>>Tamil</option>
+                        <option value="kannada" <%= (user.mothertongue == 'kannada') ? "SELECTED" : "" %>>Kannada
+                        </option>
+                        <option value="telugu" <%= (user.mothertongue == 'telugu') ? "SELECTED" : "" %>>Telugu</option>
+                        <option value="malayalam" <%= (user.mothertongue == 'malayalam') ? "SELECTED" : "" %>>Malayalam
+                        </option>
+                        <option value="gujarati" <%= (user.mothertongue == 'gujarati') ? "SELECTED" : "" %>>Gujarati
+                        </option>
+                        <option value="bengali" <%= (user.mothertongue == 'bengali') ? "SELECTED" : "" %>>Bengali
+                        </option>
+                        <option value="punjabi" <%= (user.mothertongue == 'punjabi') ? "SELECTED" : "" %>>Punjabi
+                        </option>
+                        <option value="urudu" <%= (user.mothertongue == 'urudu') ? "SELECTED" : "" %>>Urudu</option>
+                        <option value="sanskrit" <%= (user.mothertongue == 'sanskrit') ? "SELECTED" : "" %>>Sanskrit
+                        </option>
+                        <option value="english" <%= (user.mothertongue == 'english') ? "SELECTED" : "" %>>English
+                        </option>
+                        <option value="sindhi" <%= (user.mothertongue == 'sindhi') ? "SELECTED" : "" %>>Sindhi</option>
+                    </select>
+                </div>
+
+
+            </div>
+            <br>
+
+            <div class="row">
+                <p class="step">Family Info</p>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <div class="custom-control custom-radio custom-control-inline ">
+                        <input type="radio" id="customRadioInline1" name="marital" value="never married"
+                            <%= (user.marital == 'never married') ? "checked" : "" %> class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline1">Never Married</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline ">
+                        <input type="radio" id="customRadioInline2" name="marital" value="widowed"
+                            <%= (user.marital == 'widowed') ? "checked" : "" %> class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline2">Widowed</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline ">
+                        <input type="radio" id="customRadioInline3" name="marital" value="divorced"
+                            <%= (user.marital == 'divorced') ? "checked" : "" %> class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline3">Divorced</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline ">
+                        <input type="radio" id="customRadioInline4" name="marital" value="awaiting divorce"
+                            <%= (user.marital == 'awaiting divorce') ? "checked" : "" %> class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline4">Awaiting Divorce</label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Height" name="height" required
+                        value="<%=user.height%>">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" id="exampleFormControlSelect1" name="financial">
+                        <option value="null" <%= (user.financial == 'null') ? "SELECTED" : "" %>>Family status</option>
+                        <option value="middle class" <%= (user.financial == 'middle class') ? "SELECTED" : "" %>>Middle
+                            Class</option>
+                        <option value="upper class" <%= (user.financial == 'upper class') ? "SELECTED" : "" %>>Upper
+                            Middle</option>
+                        <option value="rich" <%= (user.financial == 'rich') ? "SELECTED" : "" %>>Rich</option>
+                        <option value="affluent" <%= (user.financial == 'affluent') ? "SELECTED" : "" %>>Affluent
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select name="type" class="form-control" id="exampleFormControlSelect1">
+                        <option value="null" <%= (user.type == 'null') ? "SELECTED" : "" %>>Family Type</option>
+                        <option value="joint" <%= (user.type == 'joint') ? "SELECTED" : "" %>>Joint</option>
+                        <option value="nuclear" <%= (user.type == 'nuclear') ? "SELECTED" : "" %>>Nuclear</option>
+
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select name="values" class="form-control" id="exampleFormControlSelect1">
+                        <option value="null" <%= (user.values == 'null') ? "SELECTED" : "" %>>Family Values</option>
+                        <option value="orthodox" <%= (user.values == 'orthodox') ? "SELECTED" : "" %>>Orthodox</option>
+                        <option value="traditional" <%= (user.values == 'traditional') ? "SELECTED" : "" %>>Traditional
+                        </option>
+                        <option value="moderate" <%= (user.values == 'moderate') ? "SELECTED" : "" %>>Moderate</option>
+
+                    </select>
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <p class="step">Images </p>
+            </div>
+            <hr>
+            <diw class="row">
+                <div class="col"><img src="data:image/png;base64,<%=user.photo1.toString('base64')%>"
+                        class="img-responsive" alt=""></div>
+                <div class="col"><img src="data:image/png;base64,<%=user.photo2.toString('base64')%>"
+                        class="img-responsive" alt=""></div>
+                <div class="col"><img src="data:image/png;base64,<%=user.photo3.toString('base64')%>"
+                        class="img-responsive" alt=""></div>
+                <div class="col"><img src="data:image/png;base64,<%=user.photo4.toString('base64')%>"
+                        class="img-responsive" alt=""></div>
+            </diw>
+            <div class="row">
+                <div class=" col-md-3">
+                    <div class="custom-file">
+                        <input id="inputGroupFile01" type="file" name="photo1" required>
+                        <label class="custom-file-label" for="inputGroupFile01">Choose new photo here</label>
+                    </div>
+                </div>
+                <div class=" col-md-3">
+                    <div class="custom-file">
+                        <input id="inputGroupFile02" type="file" name="photo2" required>
+                        <label class="custom-file-label" for="inputGroupFile02">Choose new photo here</label>
+                    </div>
+                </div>
+                <div class=" col-md-3">
+                    <div class="custom-file">
+                        <input id="inputGroupFile03" type="file" name="photo3" required>
+                        <label class="custom-file-label" for="inputGroupFile03">Choose new photo here</label>
+                    </div>
+                </div>
+                <div class=" col-md-3">
+                    <div class="custom-file">
+                        <input id="inputGroupFile04" type="file" name="photo4" required>
+                        <label class="custom-file-label" for="inputGroupFile04">Choose new photo here</label>
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+            <diw class="row">
+                <div class="col"><img src="data:image/png;base64,<%=user.horo1.toString('base64')%>"
+                        class="img-responsive" alt=""></div>
+                <div class="col"><img src="data:image/png;base64,<%=user.horo2.toString('base64')%>"
+                        class="img-responsive" alt=""></div>
+                <div class="col"><img src="data:image/png;base64,<%=user.horo3.toString('base64')%>"
+                        class="img-responsive" alt=""></div>
+
+            </diw>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile" name="doc1" multiple required>
+                        <label class="custom-file-label" for="customFile">Horoscope 1</label>
+                    </div>
+                </div>
+
+            </div>
+            <br>
+
+            <div class="row">
+                <p class="step">Profession </p>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-3">
+                    <select name="education" class="form-control" id="exampleFormControlSelect1">
+                        <option value="null" <%= (user.education == 'null') ? "SELECTED" : "" %>>Education</option>
+                        <option value="secondary" <%= (user.education == 'secondary') ? "SELECTED" : "" %>>Secondary</option>
+                        <option value="higher secondary" <%= (user.education == 'higher secondary') ? "SELECTED" : "" %>>Higher Secondary</option>
+                        <option value="polytechnique" <%= (user.education == 'polytechnique') ? "SELECTED" : "" %>>Polytechnique</option>
+                        <option value="b tech" <%= (user.education == 'b tech') ? "SELECTED" : "" %>>B Tech</option>
+                        <option value="m tech" <%= (user.values == 'm tech') ? "SELECTED" : "" %></option>>M Tech</option>
+                        <option value="b arc" <%= (user.education == 'b arc') ? "SELECTED" : "" %>>B Arc</option>
+                        <option value="diploma" <%= (user.education == 'diploma') ? "SELECTED" : "" %>>Diploma</option>
+                        <option value="mbbs" <%= (user.education == 'mbbs') ? "SELECTED" : "" %>>MBBS</option>
+                        <option value="m arc" <%= (user.education == 'm arc') ? "SELECTED" : "" %>>M Arc</option>
+                        <option value="ug arts" <%= (user.education == 'ug arts') ? "SELECTED" : "" %>>UG in arts</option>
+                        <option value="pg arts" <%= (user.education == 'pg arts') ? "SELECTED" : "" %>>PG in arts</option>
+                        <option value="ug science" <%= (user.education == 'ug science') ? "SELECTED" : "" %>>UG in science</option>
+                        <option value="pg science" <%= (user.education == 'pg science') ? "SELECTED" : "" %>>PG in science</option>
+                        <option value="bca" <%= (user.education == 'bca') ? "SELECTED" : "" %>>BCA</option>
+                        <option value="mca" <%= (user.education == 'mca') ? "SELECTED" : "" %>>MCA</option>
+                        <option value="bba" <%= (user.education == 'bba') ? "SELECTED" : "" %>>BBA</option>
+                        <option value="mba" <%= (user.education == 'mba') ? "SELECTED" : "" %>>MBA</option>
+                        <option value="ttc" <%= (user.education == 'ttc') ? "SELECTED" : "" %>>TTC</option>
+                    </select>      
+                </div>
+                <div class="col-md-3">
+                    <select name="employed" class="form-control" id="exampleFormControlSelect1">
+                        <option value="null" <%= (user.employed == 'null') ? "SELECTED" : "" %>>Employed In</option>
+                        <option value="government" <%= (user.employed == 'government') ? "SELECTED" : "" %>>Government</option>
+                        <option value="private" <%= (user.employed == 'private') ? "SELECTED" : "" %>>Private</option>
+                        <option value="defence" <%= (user.employed == 'defence') ? "SELECTED" : "" %>>Defence</option>
+                        <option value="busines" <%= (user.employed == 'business') ? "SELECTED" : "" %>>Business</option>
+                        <option value="self" <%= (user.employed == 'self') ? "SELECTED" : "" %>>Self Employed</option>
+                        <option value="not employed" <%= (user.employed == 'not employed') ? "SELECTED" : "" %></option>>Not Employed</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="occupation" placeholder="Occupation" >
+                </div>
+                <div class="col-md-3">
+                    <input type="Number" class="form-control" name="lpa" placeholder="Annual Income(In LPA)">
+                </div>
+            </div>
+            <div class="row">
+                <p class="step">About </p>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Tell us a brief about yourself</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                            name="about"><%=user.about%></textarea>
+                    </div>
+                </div>
+
+            </div>
+            <br>
+
+        </form>
+        <div class="row">
+            <button class="submit button" onclick="submitForm()">Submit</button>
+            <button class="submit2 button" id="cancel" onclick='window.location="../"'>Cancel</button>
+        </div>
+    </div>
+    <nav class="navbar sticky-bottom navbar-light bg-light ">
+        <p style="color:#dc3545f2;font-size:13px;padding-top:10px;color:white;"> Copyright © Pranavam Matrimony 2019</p>
+    </nav>
+    <div class="" id="load1">
+        <div class="loading-wheel" id="load2"></div>
+    </div>
+    <script>
+        function submitForm() {
+            var pw1 = document.getElementById('password1').value;
+            var pw2 = document.getElementById('password2').value;
+            var load1 = document.getElementById('load1');
+            var load2 = document.getElementById('load2');
+            if (pw1 == pw2) {
+
+                load1.className += "loading style-2";
+                document.getElementById('register').submit();
+
+
+            } else {
+                document.getElementById('error').innerHTML = "Passwords do not match!!"
+            }
+
+        }
+    </script>
+
+
+</body>
