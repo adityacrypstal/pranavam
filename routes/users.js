@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 var msg91 = require('msg91-sms');
 const multer = require('multer')
-const sharp = require('sharp')
 const path = require('path')
 var moment = require('moment');
 const sgMail = require('@sendgrid/mail');
@@ -13,19 +12,10 @@ const authkey = process.env.msg91;
 const senderid = 'PNVMAT';
 const route = '4';
 const dialcode = '91';
-const textedSVG = new Buffer(`<svg>
-     <rect x="0" y="0" width="200" height="200" />
-     <text x="10" y="76" font-size="74" fill="#fff">`+'Pranavam'+`</text>
-   </svg>`);
+
 // Load User model
 const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
-const storage = multer.diskStorage({
-  destination: './public/uploads/',
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-  }
-});
 const upload = multer({
   limits: {
     fileSize: 1000000
@@ -44,17 +34,13 @@ router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/register', forwardAuthenticated, (req, res) => res.render('form'));
 
 // Register
-var cpUpload = upload.fields([{ name: 'photo1', maxCount: 1 }, { name: 'photo2', maxCount: 1 }, { name: 'photo3', maxCount: 1 }, { name: 'photo4', maxCount: 1 }, { name: 'doc1', maxCount: 3 }])
+const cpUpload = upload.fields([{ name: 'photo1', maxCount: 1 }, { name: 'photo2', maxCount: 1 }, { name: 'photo3', maxCount: 1 }, { name: 'photo4', maxCount: 1 }, { name: 'doc1', maxCount: 3 }])
 router.post('/register', cpUpload, async (req, res) => {
-  var photo1 = await sharp(req.files['photo1'][0].buffer).resize({ width: 250, height: 250 }).png().toBuffer()
-  var photo2 = await sharp(req.files['photo2'][0].buffer).resize({ width: 250, height: 250 }).png().toBuffer()
-  var photo3 = await sharp(req.files['photo3'][0].buffer).resize({ width: 250, height: 250 }).png().toBuffer()
-  var photo4 = await sharp(req.files['photo4'][0].buffer).resize({ width: 250, height: 250 }).png().toBuffer()
-  var horo1 = req.files['doc1'][0].buffer;
-  const { fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, about } = req.body;
+  //Form vaidation starts here
+  const { fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, about, occupation, gender, salary } = req.body;
   let errors = [];
 
-  if (!fname || !email || !password1 || !password2 || !phone || !religion || !caste || !subcaste || !mothertongue || !marital || !financial || !type || !values || !education || !employed || !about) {
+  if (!fname || !email || !password1 || !password2 || !phone || !religion || !caste || !subcaste || !mothertongue || !marital || !financial || !type || !values || !education || !employed || !about || !gender || !occupation || !salary) {
     errors.push({ msg: 'Please enter all fields' });
   }
 
@@ -68,26 +54,48 @@ router.post('/register', cpUpload, async (req, res) => {
 
   if (errors.length > 0) {
     res.render('form', {
-      errors, fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, about
+      errors, fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about
     });
+    //Form validation ends here
+
   } else {
     User.findOne({ email: email }).then(user => {
       if (user) {
         errors.push({ msg: 'Email already exists' });
         res.render('form', {
-          errors, fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, about
+          errors, fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about
         });
       } else {
         var password = password1;
         const newUser = new User({
-          fname, lname, phone, email, dob, religion, caste, subcaste, password, mothertongue, marital, height, financial, horo1, type, values, education, employed, about, photo1, photo2, photo3, photo4
+          fname, lname, phone, email, dob, religion, caste, subcaste, password, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about,
         });
-        if (req.files['doc1'][1]) {
-          newUser.horo2 = req.files['doc1'][1].buffer;
+        //Images and its function
+        console.log(req.files);
+        if (req.files['photo1']) {
+          newUser.photo1 = req.files['photo1'][0].buffer;
         }
-        if (req.files['doc1'][2]) {
-          newUser.horo3 = req.files['doc1'][2].buffer;
+        if (req.files['photo2']) {
+          newUser.photo2 = req.files['photo2'][0].buffer;
         }
+        if (req.files['photo3']) {
+          newUser.photo3 = req.files['photo3'][0].buffer;
+        }
+        if (req.files['photo4']) {
+          newUser.photo4 = req.files['photo4'][0].buffer;
+        }
+        if(req.files['doc1']){
+          if (req.files['doc1'][0]) {
+            newUser.horo1 = req.files['doc1'][0].buffer;
+          }
+          if (req.files['doc1'][1]) {
+            newUser.horo2 = req.files['doc1'][1].buffer;
+          }
+          if (req.files['doc1'][2]) {
+            newUser.horo3 = req.files['doc1'][2].buffer;
+          }
+        }
+        //End image functions
 
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -113,12 +121,12 @@ router.post('/register', cpUpload, async (req, res) => {
                   <b>Pranavam Matrimony</b></p>`,
                 }
                 var message = `Thank you ${user.fname}.${user.lname}. Your registeration is completed. We will contact you soon.`;
-                msg91.sendOne(authkey, user.phone, message, senderid, route, dialcode, function (response) {
-                  sgMail.send(msg).then(resp => console.log(resp)).catch(err => console.log(err));
-                  sgMail.send(msg2).then(resp => console.log(resp)).catch(err => console.log(err));
-                  //Returns Message ID, If Sent Successfully or the appropriate Error Message
-                  console.log(response);
-                });
+                // msg91.sendOne(authkey, user.phone, message, senderid, route, dialcode, function (response) {
+                //   sgMail.send(msg).then(resp => console.log(resp)).catch(err => console.log(err));
+                //   sgMail.send(msg2).then(resp => console.log(resp)).catch(err => console.log(err));
+                //   //Returns Message ID, If Sent Successfully or the appropriate Error Message
+                //   console.log(response);
+                // });
                 req.flash(
                   'success_msg',
                   'You are now registered and can log in'
@@ -150,7 +158,51 @@ router.post('/instantQuery', (req, res) => {
     console.log(response);
   });
   res.redirect('../');
-})
+});
+
+router.post('/update/:id', cpUpload, (req, res) => {
+  const { fname, lname, phone, email, dob, religion, caste, subcaste, gender, password1, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, about } = req.body;
+  const password = password1;
+  var query = { _id: req.params.id };
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(password, salt, (err, hash) => {
+      const fields = { fname: fname, lname: lname, phone: phone, email: email, dob: dob, religion: religion, caste: caste, subcaste: subcaste, gender: gender, password: hash, mothertongue: mothertongue, marital: marital, height: height, financial: financial, type: type, values: values, education: education, employed: employed, occupation: occupation, salary: salary, about: about };
+      if (req.files['photo1']) {
+        fields.photo1 = req.files['photo1'][0].buffer;
+      }
+      if (req.files['photo2']) {
+        fields.photo2 = req.files['photo2'][0].buffer;
+      }
+      if (req.files['photo3']) {
+        fields.photo3 = req.files['photo3'][0].buffer;
+      }
+      if (req.files['photo4']) {
+        fields.photo4 = req.files['photo4'][0].buffer;
+      }
+      if(req.files['doc1']){
+        if (req.files['doc1'][0]) {
+          fields.horo1 = req.files['doc1'][0].buffer;
+        }
+        if (req.files['doc1'][1]) {
+          fields.horo2 = req.files['doc1'][1].buffer;
+        }
+        if (req.files['doc1'][2]) {
+          fields.horo3 = req.files['doc1'][2].buffer;
+        }
+      }
+      
+      User.updateOne(query, fields, (err, response) => {
+        if (err) throw err;
+        req.flash(
+          'success_msg',
+          'Your details has been updated'
+        );
+        res.redirect('/users/login');
+
+      })
+    });
+  });
+});
 
 // Login
 router.post('/login', (req, res, next) => {

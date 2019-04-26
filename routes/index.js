@@ -13,7 +13,6 @@ router.get('/', forwardAuthenticated, (req, res) => res.render('index'));
 
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) =>{
-console.log(process.env.MONGO);
   query.getUsers((err, users)=>{
     if(req.user.email == 'adityavadityav@gmail.com'){
       res.render('admin', {

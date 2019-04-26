@@ -49,6 +49,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  gender:{
+    type:String,
+    required:true
+  },
   height: {
     type: String,
     required: true
@@ -72,6 +76,14 @@ const UserSchema = new mongoose.Schema({
   employed: {
     type: String,
     required: true
+  },
+  occupation:{
+    type:String,
+    required:true
+  },
+  salary:{
+    type:String,
+    required:true
   },
   about: {
     type: String,

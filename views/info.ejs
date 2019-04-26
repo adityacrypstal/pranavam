@@ -25,12 +25,13 @@
                 </div>
                 <div class="form-group">
                     <label for="email">Age:</label>
-                    <input type="email" class="form-control" id="email" value='<%=moment().diff(user.dob, "years");%>' disabled>
+                    <input type="email" class="form-control" id="email" value='<%=moment().diff(user.dob, "years");%>'
+                        disabled>
                 </div>
                 <div class="form-group">
-                        <label for="email">Date of Birth:</label>
-                        <input type="email" class="form-control" id="email" value='<%=user.dob%>' disabled>
-                    </div>
+                    <label for="email">Date of Birth:</label>
+                    <input type="email" class="form-control" id="email" value='<%=user.dob%>' disabled>
+                </div>
                 <div class="form-group">
                     <label for="email">Religion:</label>
                     <input type="email" class="form-control" id="email" value="<%=user.religion%>" disabled>
@@ -79,15 +80,30 @@
             </div>
             <div class="col-md-6">
                 <h2>Photos</h2>
+                <%if(user.photo1){%>
                 <img src="data:image/png;base64,<%=user.photo1.toString('base64')%>" class="img-responsive" alt="">
+                <%}else{%>
+                <p>No images found</p>
+                <%}%>
+                <%if(user.photo2){%>
                 <img src="data:image/png;base64,<%=user.photo2.toString('base64')%>" class="img-responsive" alt="">
+                <%}%>
+                <%if(user.photo3){%>
                 <img src="data:image/png;base64,<%=user.photo3.toString('base64')%>" class="img-responsive" alt="">
+                <%}%>
+                <%if(user.photo4){%>
                 <img src="data:image/png;base64,<%=user.photo4.toString('base64')%>" class="img-responsive" alt="">
+                <%}%>
+                
 
                 <br>
                 <br>
                 <h2>Horoscope</h2>
+                <%if(user.horo1){%>
                 <img src="data:image/png;base64,<%=user.horo1.toString('base64')%>" class="img-responsive" alt="">
+                <%}else{%>
+                <p>No images found</p>
+                <%}%>
                 <%if(user.horo2){%>
                 <img src="data:image/png;base64,<%=user.horo2.toString('base64')%>" class="img-responsive" alt="">
                 <%}%>

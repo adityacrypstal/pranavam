@@ -90,16 +90,29 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <div class="custom-control custom-radio custom-control-inline ">
+                        <input type="radio" id="customRadioInline11" name="gender" value="male"
+                            class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline11">Male</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline ">
+                        <input type="radio" id="customRadioInline12" name="gender" value="female"
+                            class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline12">Female</label>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
                     <input type="password" class="form-control" name="password1" placeholder="Password" id="password1"
                         required>
                     <p style="color:red" id="error"></p>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <input type="password" class="form-control" name="password2" placeholder="Confirm Password"
                         id="password2" required>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <select class="form-control" id="exampleFormControlSelect1" name="mothertongue" required>
                         <option value="null">Select Mother Tongue</option>
                         <option value="hindi">Hindi</option>
@@ -119,6 +132,9 @@
 
 
             </div>
+
+
+
             <br>
 
             <div class="row">
@@ -190,25 +206,25 @@
             <div class="row">
                 <div class=" col-md-3">
                     <div class="custom-file">
-                        <input id="inputGroupFile01" type="file" name="photo1" required>
+                        <input id="inputGroupFile01" type="file" name="photo1" >
                         <label class="custom-file-label" for="inputGroupFile01">Choose photo here</label>
                     </div>
                 </div>
                 <div class=" col-md-3">
                     <div class="custom-file">
-                        <input id="inputGroupFile02" type="file" name="photo2" required>
+                        <input id="inputGroupFile02" type="file" name="photo2" >
                         <label class="custom-file-label" for="inputGroupFile02">Choose photo here</label>
                     </div>
                 </div>
                 <div class=" col-md-3">
                     <div class="custom-file">
-                        <input id="inputGroupFile03" type="file" name="photo3" required>
+                        <input id="inputGroupFile03" type="file" name="photo3" >
                         <label class="custom-file-label" for="inputGroupFile03">Choose photo here</label>
                     </div>
                 </div>
                 <div class=" col-md-3">
                     <div class="custom-file">
-                        <input id="inputGroupFile04" type="file" name="photo4" required>
+                        <input id="inputGroupFile04" type="file" name="photo4" >
                         <label class="custom-file-label" for="inputGroupFile04">Choose photo here</label>
                     </div>
                 </div>
@@ -218,7 +234,7 @@
             <div class="row">
                 <div class="col">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFile" name="doc1" multiple required>
+                        <input type="file" class="custom-file-input" id="customFile" name="doc1" multiple >
                         <label class="custom-file-label" for="customFile">Horoscope 1</label>
                     </div>
                 </div>
@@ -267,10 +283,11 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Occupation">
+                    <input type="text" class="form-control" placeholder="Occupation" name="occupation" required>
                 </div>
                 <div class="col-md-3">
-                    <input type="Number" class="form-control" placeholder="Annual Income(In LPA)">
+                    <input type="Number" class="form-control" placeholder="Annual Income(In LPA)" name="salary"
+                        required>
                 </div>
             </div>
             <div class="row">
@@ -311,8 +328,8 @@
 
                 load1.className += "loading style-2";
                 document.getElementById('register').submit();
-                
-                
+
+
             } else {
                 document.getElementById('error').innerHTML = "Passwords do not match!!"
             }

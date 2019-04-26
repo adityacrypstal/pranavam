@@ -14,9 +14,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                            <a class="nav-link " href="./users/logout" tabindex="-1" aria-disabled="true">Logout</a>
-                        </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="./users/logout" tabindex="-1" aria-disabled="true">Logout</a>
+                </li>
 
 
             </ul>
@@ -25,7 +25,7 @@
     </nav>
     <div class="container register">
         <% include ./partials/messages %>
-        <form action="#" method="POST" id="register" enctype="multipart/form-data">
+        <form action="./users/update/<%=user._id%>" method="POST" id="update" enctype="multipart/form-data">
             <div class="row">
                 <p class="step">Primary Info</p>
             </div>
@@ -106,16 +106,29 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <div class="custom-control custom-radio custom-control-inline ">
+                        <input type="radio" id="customRadioInline11" name="gender" value="male"
+                            <%= (user.gender == 'male') ? "checked" : "" %> class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline11">Male</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline ">
+                        <input type="radio" id="customRadioInline12" name="gender" value="female"
+                            <%= (user.gender == 'female') ? "checked" : "" %> class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline12">Female</label>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
                     <input type="password" class="form-control" name="password1" placeholder=" New Password"
                         id="password1" required>
                     <p style="color:red" id="error"></p>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <input type="password" class="form-control" name="password2" placeholder="Confirm Password"
                         id="password2" required>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <select class="form-control" id="exampleFormControlSelect1" name="mothertongue" required>
                         <option value="null" <%= (user.mothertongue == 'null') ? "SELECTED" : "" %>>Select Mother Tongue
                         </option>
@@ -216,58 +229,76 @@
                 <p class="step">Images </p>
             </div>
             <hr>
-            <diw class="row">
-                <div class="col"><img src="data:image/png;base64,<%=user.photo1.toString('base64')%>"
+            <diw class="row container">
+                <%if(user.photo1){%>
+                <div class="col-md-3"><img src="data:image/png;base64,<%=user.photo1.toString('base64')%>"
                         class="img-responsive" alt=""></div>
-                <div class="col"><img src="data:image/png;base64,<%=user.photo2.toString('base64')%>"
+                <%}%>
+                    <%if(user.photo2){%>
+                <div class="col-md-3">
+                    <img src="data:image/png;base64,<%=user.photo2.toString('base64')%>" class="img-responsive" alt="">
+                </div>
+                <%}%>
+                    <%if(user.photo3){%>
+                <div class="col-md-3"><img src="data:image/png;base64,<%=user.photo3.toString('base64')%>"
                         class="img-responsive" alt=""></div>
-                <div class="col"><img src="data:image/png;base64,<%=user.photo3.toString('base64')%>"
-                        class="img-responsive" alt=""></div>
-                <div class="col"><img src="data:image/png;base64,<%=user.photo4.toString('base64')%>"
-                        class="img-responsive" alt=""></div>
+                <%}%>
+                    <%if(user.photo4){%>
+                <div class="col-md-3">
+                    <img src="data:image/png;base64,<%=user.photo4.toString('base64')%>" class="img-responsive" alt="">
+                </div>
+                <%}%>
             </diw>
             <div class="row">
                 <div class=" col-md-3">
                     <div class="custom-file">
-                        <input id="inputGroupFile01" type="file" name="photo1" required>
+                        <input id="inputGroupFile01" type="file" name="photo1">
                         <label class="custom-file-label" for="inputGroupFile01">Choose new photo here</label>
                     </div>
                 </div>
                 <div class=" col-md-3">
                     <div class="custom-file">
-                        <input id="inputGroupFile02" type="file" name="photo2" required>
+                        <input id="inputGroupFile02" type="file" name="photo2">
                         <label class="custom-file-label" for="inputGroupFile02">Choose new photo here</label>
                     </div>
                 </div>
                 <div class=" col-md-3">
                     <div class="custom-file">
-                        <input id="inputGroupFile03" type="file" name="photo3" required>
+                        <input id="inputGroupFile03" type="file" name="photo3">
                         <label class="custom-file-label" for="inputGroupFile03">Choose new photo here</label>
                     </div>
                 </div>
                 <div class=" col-md-3">
                     <div class="custom-file">
-                        <input id="inputGroupFile04" type="file" name="photo4" required>
+                        <input id="inputGroupFile04" type="file" name="photo4">
                         <label class="custom-file-label" for="inputGroupFile04">Choose new photo here</label>
                     </div>
                 </div>
 
             </div>
             <hr>
-            <diw class="row">
-                <div class="col"><img src="data:image/png;base64,<%=user.horo1.toString('base64')%>"
-                        class="img-responsive" alt=""></div>
-                <div class="col"><img src="data:image/png;base64,<%=user.horo2.toString('base64')%>"
-                        class="img-responsive" alt=""></div>
-                <div class="col"><img src="data:image/png;base64,<%=user.horo3.toString('base64')%>"
-                        class="img-responsive" alt=""></div>
-
-            </diw>
+            <div class="row">
+                <%if(user.horo1){%>
+               <div class="col-md-4">
+                <img src="data:image/png;base64,<%=user.horo1.toString('base64')%>" class="img-responsive" alt="">
+               </div>
+                <%}%>
+                <%if(user.horo2){%>
+                <div class="col-md-4">
+                    <img src="data:image/png;base64,<%=user.horo2.toString('base64')%>" class="img-responsive" alt="">
+                </div>   
+                <%}%>
+                <%if(user.horo3){%>
+                <div class="col-md-4">
+                    <img src="data:image/png;base64,<%=user.horo3.toString('base64')%>" class="img-responsive" alt="">
+                </div>
+                <%}%>
+            </div>
             <br>
             <div class="row">
                 <div class="col">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFile" name="doc1" multiple required>
+                        <input type="file" class="custom-file-input" id="customFile" name="doc1" multiple>
                         <label class="custom-file-label" for="customFile">Horoscope 1</label>
                     </div>
                 </div>
@@ -283,65 +314,74 @@
                 <div class="col-md-3">
                     <select name="education" class="form-control" id="exampleFormControlSelect1">
                         <option value="null" <%= (user.education == 'null') ? "SELECTED" : "" %>>Education</option>
-                        <option value="secondary" <%= (user.education == 'secondary') ? "SELECTED" : "" %>>Secondary</option>
-                        <option value="higher secondary" <%= (user.education == 'higher secondary') ? "SELECTED" : "" %>>Higher Secondary</option>
-                        <option value="polytechnique" <%= (user.education == 'polytechnique') ? "SELECTED" : "" %>>Polytechnique</option>
-                        <option value="b tech" <%= (user.education == 'b tech') ? "SELECTED" : "" %>>B Tech</option>
-                        <option value="m tech" <%= (user.values == 'm tech') ? "SELECTED" : "" %></option>>M Tech</option>
-                        <option value="b arc" <%= (user.education == 'b arc') ? "SELECTED" : "" %>>B Arc</option>
-                        <option value="diploma" <%= (user.education == 'diploma') ? "SELECTED" : "" %>>Diploma</option>
-                        <option value="mbbs" <%= (user.education == 'mbbs') ? "SELECTED" : "" %>>MBBS</option>
-                        <option value="m arc" <%= (user.education == 'm arc') ? "SELECTED" : "" %>>M Arc</option>
-                        <option value="ug arts" <%= (user.education == 'ug arts') ? "SELECTED" : "" %>>UG in arts</option>
-                        <option value="pg arts" <%= (user.education == 'pg arts') ? "SELECTED" : "" %>>PG in arts</option>
-                        <option value="ug science" <%= (user.education == 'ug science') ? "SELECTED" : "" %>>UG in science</option>
-                        <option value="pg science" <%= (user.education == 'pg science') ? "SELECTED" : "" %>>PG in science</option>
-                        <option value="bca" <%= (user.education == 'bca') ? "SELECTED" : "" %>>BCA</option>
-                        <option value="mca" <%= (user.education == 'mca') ? "SELECTED" : "" %>>MCA</option>
-                        <option value="bba" <%= (user.education == 'bba') ? "SELECTED" : "" %>>BBA</option>
-                        <option value="mba" <%= (user.education == 'mba') ? "SELECTED" : "" %>>MBA</option>
-                        <option value="ttc" <%= (user.education == 'ttc') ? "SELECTED" : "" %>>TTC</option>
-                    </select>      
-                </div>
-                <div class="col-md-3">
-                    <select name="employed" class="form-control" id="exampleFormControlSelect1">
-                        <option value="null" <%= (user.employed == 'null') ? "SELECTED" : "" %>>Employed In</option>
-                        <option value="government" <%= (user.employed == 'government') ? "SELECTED" : "" %>>Government</option>
-                        <option value="private" <%= (user.employed == 'private') ? "SELECTED" : "" %>>Private</option>
-                        <option value="defence" <%= (user.employed == 'defence') ? "SELECTED" : "" %>>Defence</option>
-                        <option value="busines" <%= (user.employed == 'business') ? "SELECTED" : "" %>>Business</option>
-                        <option value="self" <%= (user.employed == 'self') ? "SELECTED" : "" %>>Self Employed</option>
-                        <option value="not employed" <%= (user.employed == 'not employed') ? "SELECTED" : "" %></option>>Not Employed</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" name="occupation" placeholder="Occupation" >
-                </div>
-                <div class="col-md-3">
-                    <input type="Number" class="form-control" name="lpa" placeholder="Annual Income(In LPA)">
-                </div>
+                <option value="secondary" <%= (user.education == 'secondary') ? "SELECTED" : "" %>>Secondary
+                </option>
+                <option value="higher secondary" <%= (user.education == 'higher secondary') ? "SELECTED" : "" %>>Higher
+                    Secondary</option>
+                <option value="polytechnique" <%= (user.education == 'polytechnique') ? "SELECTED" : "" %>>
+                    Polytechnique</option>
+                <option value="b tech" <%= (user.education == 'b tech') ? "SELECTED" : "" %>>B Tech</option>
+                <option value="m tech" <%= (user.values == 'm tech') ? "SELECTED" : "" %></option>>M Tech</option>
+                    <option value="b arc" <%= (user.education == 'b arc') ? "SELECTED" : "" %>>B
+                    Arc</option>
+                <option value="diploma" <%= (user.education == 'diploma') ? "SELECTED" : "" %>>Diploma</option>
+                <option value="mbbs" <%= (user.education == 'mbbs') ? "SELECTED" : "" %>>MBBS</option>
+                <option value="m arc" <%= (user.education == 'm arc') ? "SELECTED" : "" %>>M Arc</option>
+                <option value="ug arts" <%= (user.education == 'ug arts') ? "SELECTED" : "" %>>UG in arts
+                </option>
+                <option value="pg arts" <%= (user.education == 'pg arts') ? "SELECTED" : "" %>>PG in arts
+                </option>
+                <option value="ug science" <%= (user.education == 'ug science') ? "SELECTED" : "" %>>UG in
+                    science</option>
+                <option value="pg science" <%= (user.education == 'pg science') ? "SELECTED" : "" %>>PG in
+                    science</option>
+                <option value="bca" <%= (user.education == 'bca') ? "SELECTED" : "" %>>BCA</option>
+                <option value="mca" <%= (user.education == 'mca') ? "SELECTED" : "" %>>MCA</option>
+                <option value="bba" <%= (user.education == 'bba') ? "SELECTED" : "" %>>BBA</option>
+                <option value="mba" <%= (user.education == 'mba') ? "SELECTED" : "" %>>MBA</option>
+                <option value="ttc" <%= (user.education == 'ttc') ? "SELECTED" : "" %>>TTC</option>
+                </select>
+    </div>
+    <div class="col-md-3">
+        <select name="employed" class="form-control" id="exampleFormControlSelect1">
+            <option value="null" <%= (user.employed == 'null') ? "SELECTED" : "" %>>Employed In</option>
+            <option value="government" <%= (user.employed == 'government') ? "SELECTED" : "" %>>Government
+            </option>
+            <option value="private" <%= (user.employed == 'private') ? "SELECTED" : "" %>>Private</option>
+            <option value="defence" <%= (user.employed == 'defence') ? "SELECTED" : "" %>>Defence</option>
+            <option value="busines" <%= (user.employed == 'business') ? "SELECTED" : "" %>>Business</option>
+            <option value="self" <%= (user.employed == 'self') ? "SELECTED" : "" %>>Self Employed</option>
+            <option value="not employed" <%= (user.employed == 'not employed') ? "SELECTED" : "" %></option>>Not
+                Employed</option> </select> </div> <div class="col-md-3">
+                <input type="text" class="form-control" name="occupation" placeholder="Occupation"
+                    value="<%=user.occupation%>">
+    </div>
+    <div class="col-md-3">
+        <input type="Number" class="form-control" name="salary" placeholder="Annual Income(In LPA)"
+            value="<%=user.salary%>">
+    </div>
+    </div>
+    <div class="row">
+        <p class="step">About </p>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Tell us a brief about yourself</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                    name="about"><%=user.about%></textarea>
             </div>
-            <div class="row">
-                <p class="step">About </p>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Tell us a brief about yourself</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                            name="about"><%=user.about%></textarea>
-                    </div>
-                </div>
-
-            </div>
-            <br>
-
-        </form>
-        <div class="row">
-            <button class="submit button" onclick="submitForm()">Submit</button>
-            <button class="submit2 button" id="cancel" onclick='window.location="../"'>Cancel</button>
         </div>
+
+    </div>
+    <br>
+
+    </form>
+    <div class="row">
+        <button class="submit button" onclick="submitForm()">Update</button>
+        <button class="submit2 button" id="cancel" onclick='window.location="../"'>Cancel</button>
+    </div>
     </div>
     <nav class="navbar sticky-bottom navbar-light bg-light ">
         <p style="color:#dc3545f2;font-size:13px;padding-top:10px;color:white;"> Copyright © Pranavam Matrimony 2019</p>
@@ -355,14 +395,18 @@
             var pw2 = document.getElementById('password2').value;
             var load1 = document.getElementById('load1');
             var load2 = document.getElementById('load2');
-            if (pw1 == pw2) {
-
-                load1.className += "loading style-2";
-                document.getElementById('register').submit();
-
-
+            if (pw1 == '' || pw2 == '') {
+                document.getElementById('error').innerHTML = "Please enter your password here!!"
             } else {
-                document.getElementById('error').innerHTML = "Passwords do not match!!"
+                if (pw1 == pw2 && pw1 != null) {
+
+                    load1.className += "loading style-2";
+                    document.getElementById('update').submit();
+
+
+                } else {
+                    document.getElementById('error').innerHTML = "Passwords do not match!!"
+                }
             }
 
         }
