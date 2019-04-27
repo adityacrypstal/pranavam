@@ -33,6 +33,11 @@ router.get('/profile',(req, res)=>{
   res.render('profile', {
     user: req.user,
   })
+});
+router.get('/forgot',(req, res)=>{
+  res.render('forgot', {
+    user: req.user,
+  })
 })
 router.post('/filter', (req, res)=>{
   var query = {};

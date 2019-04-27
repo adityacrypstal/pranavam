@@ -12,7 +12,7 @@ const authkey = process.env.msg91;
 const senderid = 'PNVMAT';
 const route = '4';
 const dialcode = '91';
-
+var util = require('util')
 // Load User model
 const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
@@ -84,7 +84,7 @@ router.post('/register', cpUpload, async (req, res) => {
         if (req.files['photo4']) {
           newUser.photo4 = req.files['photo4'][0].buffer;
         }
-        if(req.files['doc1']){
+        if (req.files['doc1']) {
           if (req.files['doc1'][0]) {
             newUser.horo1 = req.files['doc1'][0].buffer;
           }
@@ -179,7 +179,7 @@ router.post('/update/:id', cpUpload, (req, res) => {
       if (req.files['photo4']) {
         fields.photo4 = req.files['photo4'][0].buffer;
       }
-      if(req.files['doc1']){
+      if (req.files['doc1']) {
         if (req.files['doc1'][0]) {
           fields.horo1 = req.files['doc1'][0].buffer;
         }
@@ -190,7 +190,7 @@ router.post('/update/:id', cpUpload, (req, res) => {
           fields.horo3 = req.files['doc1'][2].buffer;
         }
       }
-      
+
       User.updateOne(query, fields, (err, response) => {
         if (err) throw err;
         req.flash(
@@ -203,7 +203,35 @@ router.post('/update/:id', cpUpload, (req, res) => {
     });
   });
 });
+router.post('/reset', (req, res) => {
+  User.findOne({ email: req.body.email }, (err, response) => {
+    var human_id = response._id.toString().substr(0,7);
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(human_id, salt, (err, hash) => {
+        User.updateOne({ _id: response._id }, { password: hash }, (err, ress) => {
+          const msg = {
+            to: response.email,
+            from: 'matrimonypranavam@gmail.com',
+            subject: 'Reset Password',
+            html: `Hello ${response.fname}. ${response.lname}, This is your one resetted  password ${human_id} . You have to change it as soon as possible through your profile page<br><br><br>
+            Thank you,<br>
+            <b>Pranavam Matrimony</b></p>`,
+          }
+          sgMail.send(msg).then((resp) => {
+            req.flash(
+              'success_msg',
+              'Your details has been mailed'
+            );
+            res.redirect('/users/login');
+          }).catch(err => console.log(err));
+        })
 
+      });
+    });
+  })
+
+
+})
 // Login
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', {
