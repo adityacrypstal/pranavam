@@ -27,11 +27,11 @@ const UserSchema = new mongoose.Schema({
   },
   caste: {
     type: String,
-    required: true
+    required: false
   },
   subcaste: {
     type: String,
-    required: true
+    required: false
   },
   file:{
     type: String,
@@ -47,47 +47,51 @@ const UserSchema = new mongoose.Schema({
   },
   marital: {
     type: String,
-    required: true
+    required: true 
   },
   gender:{
     type:String,
-    required:true
+    required:false
   },
   height: {
     type: String,
-    required: true
+    required: false
   },
   financial: {
     type: String,
-    required: true
+    required: false
   },
   type: {
     type: String,
-    required: true
+    required: false
   },
   values: {
     type: String,
-    required: true
+    required: false
   },
   education: {
     type: String,
-    required: true
+    required: false
   },
   employed: {
     type: String,
-    required: true
+    required: false
   },
   occupation:{
     type:String,
-    required:true
+    required:false
   },
   salary:{
+    type:String,
+    required:false
+  },
+  address:{
     type:String,
     required:true
   },
   about: {
     type: String,
-    required: true
+    required: false
   },
   date: {
     type: Date,

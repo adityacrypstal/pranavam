@@ -47,7 +47,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class='input-group date' id='datetimepicker1'>
-                        <input type='date' class="form-control" name="dob" />
+                        <input type='date' class="form-control" name="dob" required/>
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -63,7 +63,7 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <select class="form-control" id="exampleFormControlSelect1" name="caste" required>
+                    <select class="form-control" id="exampleFormControlSelect1" name="caste" >
                         <option value="null">Select Caste</option>
                         <option value="nair">Nair</option>
                         <option value="ezhava">Ezhava</option>
@@ -93,7 +93,7 @@
                 <div class="col-md-3">
                     <div class="custom-control custom-radio custom-control-inline ">
                         <input type="radio" id="customRadioInline11" name="gender" value="male"
-                            class="custom-control-input">
+                            class="custom-control-input" required>
                         <label class="custom-control-label" for="customRadioInline11">Male</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline ">
@@ -132,7 +132,16 @@
 
 
             </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Address</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"
+                            name="address"></textarea>
+                    </div>
+                </div>
 
+            </div>
 
 
             <br>
@@ -144,7 +153,7 @@
             <div class="row">
                 <div class="col">
                     <div class="custom-control custom-radio custom-control-inline ">
-                        <input type="radio" id="customRadioInline1" name="marital" value="never married"
+                        <input type="radio" id="customRadioInline1" name="marital" value="never married" required
                             class="custom-control-input">
                         <label class="custom-control-label" for="customRadioInline1">Never Married</label>
                     </div>
@@ -168,7 +177,7 @@
             <br>
             <div class="row">
                 <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Height" name="height" required>
+                    <input type="text" class="form-control" placeholder="Height" name="height" >
                 </div>
                 <div class="col-md-3">
                     <select class="form-control" id="exampleFormControlSelect1" name="financial">
@@ -283,11 +292,11 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Occupation" name="occupation" required>
+                    <input type="text" class="form-control" placeholder="Occupation" name="occupation" >
                 </div>
                 <div class="col-md-3">
                     <input type="Number" class="form-control" placeholder="Annual Income(In LPA)" name="salary"
-                        required>
+                        >
                 </div>
             </div>
             <div class="row">

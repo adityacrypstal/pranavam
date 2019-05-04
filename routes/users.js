@@ -37,10 +37,10 @@ router.get('/register', forwardAuthenticated, (req, res) => res.render('form'));
 const cpUpload = upload.fields([{ name: 'photo1', maxCount: 1 }, { name: 'photo2', maxCount: 1 }, { name: 'photo3', maxCount: 1 }, { name: 'photo4', maxCount: 1 }, { name: 'doc1', maxCount: 3 }])
 router.post('/register', cpUpload, async (req, res) => {
   //Form vaidation starts here
-  const { fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, about, occupation, gender, salary } = req.body;
+  const { fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, about, occupation, gender, salary, address } = req.body;
   let errors = [];
 
-  if (!fname || !email || !password1 || !password2 || !phone || !religion || !caste || !subcaste || !mothertongue || !marital || !financial || !type || !values || !education || !employed || !about || !gender || !occupation || !salary) {
+  if (!fname || !email || !password1 || !password2 || !phone || !religion || !marital || !gender || !address) {
     errors.push({ msg: 'Please enter all fields' });
   }
 
@@ -54,7 +54,7 @@ router.post('/register', cpUpload, async (req, res) => {
 
   if (errors.length > 0) {
     res.render('form', {
-      errors, fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about
+      errors, fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about, address
     });
     //Form validation ends here
 
@@ -63,12 +63,12 @@ router.post('/register', cpUpload, async (req, res) => {
       if (user) {
         errors.push({ msg: 'Email already exists' });
         res.render('form', {
-          errors, fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about
+          errors, fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about, address
         });
       } else {
         var password = password1;
         const newUser = new User({
-          fname, lname, phone, email, dob, religion, caste, subcaste, password, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about,
+          fname, lname, phone, email, dob, religion, caste, subcaste, password, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about, address
         });
         //Images and its function
         console.log(req.files);
@@ -150,7 +150,7 @@ router.get('/getInfo/:id', (req, res) => {
 })
 router.post('/instantQuery', (req, res) => {
   console.log(req.body);
-  var number = '9567682232';
+  var number = '9895593981';
   var message = `${req.body.name} from ${req.body.state} is asking help.Please contact him through ${req.body.phone} or ${req.body.email}`;
   msg91.sendOne(authkey, number, message, senderid, route, dialcode, function (response) {
 

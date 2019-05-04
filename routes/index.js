@@ -14,7 +14,7 @@ router.get('/', forwardAuthenticated, (req, res) => res.render('index'));
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) =>{
   query.getUsers((err, users)=>{
-    if(req.user.email == 'adityavadityav@gmail.com'){
+    if(req.user.email == 'matrimonypranavam@gmail.com'){
       res.render('admin', {
         user: req.user,
         users:users,

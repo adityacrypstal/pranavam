@@ -71,7 +71,7 @@ section{height:95vh}
   }
   .already{font-family: 'Rubik', sans-serif;}
   .query{
-      height:30vh;
+      height:35vh;
       background-color:#8080801c;
       color:black;
   }
@@ -154,6 +154,7 @@ td{
 .quer2 p{
     font-size:1vw;
 }
+
 @media only screen and (max-width: 600px){
     .sms{
         margin-top:30px;
