@@ -197,6 +197,9 @@ td{
         background-color: grey;
         margin-left:30px;
     }
+    .query{
+        height:25vh;
+    }
 }
 
 input[type="file"] { 
