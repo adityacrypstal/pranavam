@@ -158,6 +158,9 @@ td{
     .navbar-brand img{
         width:50px !important;
     }
+    .query{
+        background-color:white;
+    }
     
     
 }
