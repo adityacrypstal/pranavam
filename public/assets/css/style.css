@@ -160,6 +160,10 @@ td{
         height:40px;
 
     }
+    body {
+		-webkit-text-size-adjust: 100%;
+		-ms-text-size-adjust: 100%;
+	}
     .query{
         background-color:white;
     }
