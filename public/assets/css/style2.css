@@ -3,14 +3,14 @@
   body {
     font-family: "Poppins", sans-serif;
     height: 100vh;
-    background-color: #dc3545f2;
+    background-color: #f6931f;
   }
   .alert{
     font-size:15px;
     margin-top:10px;
   }
   a {
-    color: #dc3545f2;
+    color: #f6931f;
     display:inline-block;
     text-decoration: none;
     font-weight: 400;
@@ -31,7 +31,13 @@
   }
   
   
-  
+  .navbar-brand img{
+    width:100px;
+}
+.navbar-brand {
+    padding:0px;
+
+}
   /* STRUCTURE */
   
   .wrapper {
@@ -77,7 +83,7 @@
   
   h2.active {
     color: #0d0d0d;
-    border-bottom: 2px solid #dc3545f2;
+    border-bottom: 2px solid #f6931f;
   }
   
   
@@ -85,7 +91,7 @@
   /* FORM TYPOGRAPHY*/
   
   input[type=button], input[type=submit], input[type=reset]  {
-    background-color: #dc3545f2;
+    background-color: #f6931f;
     border: none;
     color: white;
     padding: 15px 80px;
@@ -107,7 +113,7 @@
   }
   
   input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
-    background-color: #dc3545f2;
+    background-color: #f6931f;
   }
   
   input[type=button]:active, input[type=submit]:active, input[type=reset]:active  {
@@ -141,7 +147,7 @@
   
   input[type=text]:focus {
     background-color: #fff;
-    border-bottom: 2px solid #dc3545f2;
+    border-bottom: 2px solid #f6931f;
   }
   
   input[type=text]:placeholder {
@@ -239,7 +245,7 @@
     bottom: -10px;
     width: 0;
     height: 2px;
-    background-color: #dc3545f2;
+    background-color: #f6931f;
     content: "";
     transition: width 0.2s;
   }

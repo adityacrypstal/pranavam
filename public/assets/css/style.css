@@ -248,3 +248,10 @@ input[type="file"] {
         -webkit-transform: rotate(-360deg);
     }
 }
+.navbar-brand img{
+    width:100px;
+}
+.navbar-brand {
+    padding:0px;
+
+}
