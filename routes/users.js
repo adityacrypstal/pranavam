@@ -21,8 +21,11 @@ const upload = multer({
     fileSize: 1000000
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-      return cb(new Error('Please upload an image'))
+    if (!file.originalname.match(/\.(jpg|jpeg|png|JPEG)$/)) {
+      errors.push({ msg: 'Supported file format jpeg, png, jpg' });
+      res.render('form', {
+        errors, fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about, address
+      });
     }
 
     cb(undefined, true)
