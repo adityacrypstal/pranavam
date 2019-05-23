@@ -5,6 +5,7 @@ const passport = require('passport');
 var msg91 = require('msg91-sms');
 const multer = require('multer')
 const path = require('path')
+const sharp = require('sharp');
 var moment = require('moment');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SEND_GRID_API);
@@ -21,11 +22,9 @@ const upload = multer({
     fileSize: 1000000
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|JPEG)$/)) {
-      errors.push({ msg: 'Supported file format jpeg, png, jpg' });
-      res.render('form', {
-        errors, fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about, address
-      });
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      req.fileValidationError = 'goes wrong on the mimetype';
+      return cb(null, false, new Error('goes wrong on the mimetype'));
     }
 
     cb(undefined, true)
@@ -39,12 +38,20 @@ router.get('/register', forwardAuthenticated, (req, res) => res.render('form'));
 // Register
 const cpUpload = upload.fields([{ name: 'photo1', maxCount: 1 }, { name: 'photo2', maxCount: 1 }, { name: 'photo3', maxCount: 1 }, { name: 'photo4', maxCount: 1 }, { name: 'doc1', maxCount: 3 }])
 router.post('/register', cpUpload, async (req, res) => {
+  let errors = [];
+  
   //Form vaidation starts here
   const { fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, about, occupation, gender, salary, address } = req.body;
-  let errors = [];
+
 
   if (!fname || !email || !password1 || !password2 || !phone || !religion || !marital || !gender || !address) {
     errors.push({ msg: 'Please enter all fields' });
+  }
+  if (req.fileValidationError) {
+    errors.push({ msg: 'Insert files of png / jpeg / jpg format' });
+    return res.render('form', {
+      errors, fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about, address
+    });
   }
 
   if (password1 != password2) {
@@ -76,16 +83,16 @@ router.post('/register', cpUpload, async (req, res) => {
         //Images and its function
         console.log(req.files);
         if (req.files['photo1']) {
-          newUser.photo1 = req.files['photo1'][0].buffer;
+          sharp(req.files['photo1'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo1 = data}).catch( err => { errors.push({ msg: err })});
         }
         if (req.files['photo2']) {
-          newUser.photo2 = req.files['photo2'][0].buffer;
+          sharp(req.files['photo2'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo2 = data}).catch( err => { errors.push({ msg: err })});;
         }
         if (req.files['photo3']) {
-          newUser.photo3 = req.files['photo3'][0].buffer;
+          sharp(req.files['photo3'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo3 = data}).catch( err => { errors.push({ msg: err })});;
         }
         if (req.files['photo4']) {
-          newUser.photo4 = req.files['photo4'][0].buffer;
+          sharp(req.files['photo4'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo4 = data}).catch( err => { errors.push({ msg: err })});;
         }
         if (req.files['doc1']) {
           if (req.files['doc1'][0]) {
@@ -124,12 +131,12 @@ router.post('/register', cpUpload, async (req, res) => {
                   <b>Pranavam Matrimony</b></p>`,
                 }
                 var message = `Thank you ${user.fname}.${user.lname}. Your registeration is completed. We will contact you soon.`;
-                // msg91.sendOne(authkey, user.phone, message, senderid, route, dialcode, function (response) {
-                //   sgMail.send(msg).then(resp => console.log(resp)).catch(err => console.log(err));
-                //   sgMail.send(msg2).then(resp => console.log(resp)).catch(err => console.log(err));
-                //   //Returns Message ID, If Sent Successfully or the appropriate Error Message
-                //   console.log(response);
-                // });
+                msg91.sendOne(authkey, user.phone, message, senderid, route, dialcode, function (response) {
+                  sgMail.send(msg).then(resp => console.log(resp)).catch(err => console.log(err));
+                  sgMail.send(msg2).then(resp => console.log(resp)).catch(err => console.log(err));
+                  //Returns Message ID, If Sent Successfully or the appropriate Error Message
+                  console.log(response);
+                });
                 req.flash(
                   'success_msg',
                   'You are now registered and can log in'
@@ -166,21 +173,24 @@ router.post('/instantQuery', (req, res) => {
 router.post('/update/:id', cpUpload, (req, res) => {
   const { fname, lname, phone, email, dob, religion, caste, subcaste, gender, password1, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, about } = req.body;
   const password = password1;
+  if (req.fileValidationError) {
+    errors.push({ msg: 'Insert files of png / jpeg / jpg format' });
+  }
   var query = { _id: req.params.id };
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(password, salt, (err, hash) => {
       const fields = { fname: fname, lname: lname, phone: phone, email: email, dob: dob, religion: religion, caste: caste, subcaste: subcaste, gender: gender, password: hash, mothertongue: mothertongue, marital: marital, height: height, financial: financial, type: type, values: values, education: education, employed: employed, occupation: occupation, salary: salary, about: about };
       if (req.files['photo1']) {
-        fields.photo1 = req.files['photo1'][0].buffer;
+        sharp(req.files['photo1'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo1 = data}).catch( err => { errors.push({ msg: err })});
       }
       if (req.files['photo2']) {
-        fields.photo2 = req.files['photo2'][0].buffer;
+        sharp(req.files['photo2'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo2 = data}).catch( err => { errors.push({ msg: err })});;
       }
       if (req.files['photo3']) {
-        fields.photo3 = req.files['photo3'][0].buffer;
+        sharp(req.files['photo3'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo3 = data}).catch( err => { errors.push({ msg: err })});;
       }
       if (req.files['photo4']) {
-        fields.photo4 = req.files['photo4'][0].buffer;
+        sharp(req.files['photo4'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo4 = data}).catch( err => { errors.push({ msg: err })});;
       }
       if (req.files['doc1']) {
         if (req.files['doc1'][0]) {
@@ -208,7 +218,7 @@ router.post('/update/:id', cpUpload, (req, res) => {
 });
 router.post('/reset', (req, res) => {
   User.findOne({ email: req.body.email }, (err, response) => {
-    var human_id = response._id.toString().substr(0,7);
+    var human_id = response._id.toString().substr(0, 7);
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(human_id, salt, (err, hash) => {
         User.updateOne({ _id: response._id }, { password: hash }, (err, ress) => {
