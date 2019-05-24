@@ -43,7 +43,7 @@ router.post('/register', cpUpload, async (req, res) => {
   const { fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, about, occupation, gender, salary, address } = req.body;
 
 
-  if (!fname || !email || !password1 || !password2 || !phone || !religion || !marital || !gender || !address) {
+  if (!fname || !email || !password1 || !password2 || !phone || !religion || !marital || !gender || !address || dob) {
     errors.push({ msg: 'Please enter all fields' });
   }
 
