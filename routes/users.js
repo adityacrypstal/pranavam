@@ -18,8 +18,9 @@ var util = require('util')
 const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
 const upload = multer({
+  
   fileFilter(req, file, cb) {
-    if ((!file.originalname.match(/\.(jpg|jpeg|png)$/))||(file.size > 0.5 * 1024 * 1024)) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
       req.fileValidationError = 'goes wrong on the mimetype';
       return cb(null, false, new Error('goes wrong on the mimetype'));
     }
@@ -81,12 +82,11 @@ router.post('/register', cpUpload, async (req, res) => {
           fname, lname, phone, email, dob, religion, caste, subcaste, password, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about, address
         });
         //Images and its function
-        console.log(req.files);
         if (req.files['photo1']) {
-          sharp(req.files['photo1'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo1 = data }).catch(err => { errors.push({ msg: err }) });
+          sharp(req.files['photo1'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo1 = data;}).catch(err => { errors.push({ msg: err });});
         }
         if (req.files['photo2']) {
-          sharp(req.files['photo2'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo2 = data }).catch(err => { errors.push({ msg: err }) });;
+          sharp(req.files['photo2'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo2 = data }).catch(err => { errors.spush({ msg: err }) });;
         }
         if (req.files['photo3']) {
           sharp(req.files['photo3'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo3 = data }).catch(err => { errors.push({ msg: err }) });;
@@ -172,6 +172,7 @@ router.post('/instantQuery', (req, res) => {
 
 router.post('/update/:id', cpUpload, (req, res) => {
   let errors = [];
+
   const { fname, lname, phone, email, dob, religion, caste, subcaste, gender, password1, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, about } = req.body;
   const password = password1;
   if (req.fileValidationError) {
@@ -179,20 +180,21 @@ router.post('/update/:id', cpUpload, (req, res) => {
   }
   var query = { _id: req.params.id };
   bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(password, salt, (err, hash) => {
+    bcrypt.hash(password, salt, async (err, hash) => {
       const fields = { fname: fname, lname: lname, phone: phone, email: email, dob: dob, religion: religion, caste: caste, subcaste: subcaste, gender: gender, password: hash, mothertongue: mothertongue, marital: marital, height: height, financial: financial, type: type, values: values, education: education, employed: employed, occupation: occupation, salary: salary, about: about };
       if (req.files['photo1']) {
-        sharp(req.files['photo1'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo1 = data }).catch(err => { errors.push({ msg: err }) });
+        fields.photo1 = await sharp(req.files['photo1'][0].buffer).resize(200).png().toBuffer();
       }
       if (req.files['photo2']) {
-        sharp(req.files['photo2'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo2 = data }).catch(err => { errors.push({ msg: err }) });;
+        fields.photo2 = await sharp(req.files['photo2'][0].buffer).resize(200).png().toBuffer();
       }
       if (req.files['photo3']) {
-        sharp(req.files['photo3'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo3 = data }).catch(err => { errors.push({ msg: err }) });;
+        fields.photo3 = await sharp(req.files['photo3'][0].buffer).resize(200).png().toBuffer();
       }
       if (req.files['photo4']) {
-        sharp(req.files['photo4'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo4 = data }).catch(err => { errors.push({ msg: err }) });;
+        fields.photo4 = await sharp(req.files['photo4'][0].buffer).resize(200).png().toBuffer();
       }
+      console.log(fields);
       if (req.files['doc1']) {
         if (req.files['doc1'][0]) {
           fields.horo1 = req.files['doc1'][0].buffer;
