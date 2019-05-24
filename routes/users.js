@@ -46,13 +46,6 @@ router.post('/register', cpUpload, async (req, res) => {
     errors.push({ msg: 'Please enter all fields' });
   }
 
-
-
-
-
-
-
-
   if (req.fileValidationError) {
     errors.push({ msg: 'Insert files of png / jpeg / jpg format less than 512 kb' });
     return res.render('form', {
@@ -77,6 +70,7 @@ router.post('/register', cpUpload, async (req, res) => {
   } else {
     User.findOne({ email: email }).then(user => {
       if (user) {
+
         errors.push({ msg: 'Email already exists' });
         res.render('form', {
           errors, fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about, address
@@ -177,6 +171,7 @@ router.post('/instantQuery', (req, res) => {
 });
 
 router.post('/update/:id', cpUpload, (req, res) => {
+  let errors = [];
   const { fname, lname, phone, email, dob, religion, caste, subcaste, gender, password1, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, about } = req.body;
   const password = password1;
   if (req.fileValidationError) {
