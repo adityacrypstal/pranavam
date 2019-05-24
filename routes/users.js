@@ -18,14 +18,12 @@ var util = require('util')
 const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
 const upload = multer({
-  limits: {
-    fileSize: 1000000
-  },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+    if ((!file.originalname.match(/\.(jpg|jpeg|png)$/))||(file.size > 0.5 * 1024 * 1024)) {
       req.fileValidationError = 'goes wrong on the mimetype';
       return cb(null, false, new Error('goes wrong on the mimetype'));
     }
+
 
     cb(undefined, true)
   }
@@ -39,7 +37,7 @@ router.get('/register', forwardAuthenticated, (req, res) => res.render('form'));
 const cpUpload = upload.fields([{ name: 'photo1', maxCount: 1 }, { name: 'photo2', maxCount: 1 }, { name: 'photo3', maxCount: 1 }, { name: 'photo4', maxCount: 1 }, { name: 'doc1', maxCount: 3 }])
 router.post('/register', cpUpload, async (req, res) => {
   let errors = [];
-  
+
   //Form vaidation starts here
   const { fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, about, occupation, gender, salary, address } = req.body;
 
@@ -47,8 +45,16 @@ router.post('/register', cpUpload, async (req, res) => {
   if (!fname || !email || !password1 || !password2 || !phone || !religion || !marital || !gender || !address) {
     errors.push({ msg: 'Please enter all fields' });
   }
+
+
+
+
+
+
+
+
   if (req.fileValidationError) {
-    errors.push({ msg: 'Insert files of png / jpeg / jpg format' });
+    errors.push({ msg: 'Insert files of png / jpeg / jpg format less than 512 kb' });
     return res.render('form', {
       errors, fname, lname, phone, email, dob, religion, caste, subcaste, password1, password2, mothertongue, marital, height, financial, type, values, education, employed, occupation, salary, gender, about, address
     });
@@ -83,16 +89,16 @@ router.post('/register', cpUpload, async (req, res) => {
         //Images and its function
         console.log(req.files);
         if (req.files['photo1']) {
-          sharp(req.files['photo1'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo1 = data}).catch( err => { errors.push({ msg: err })});
+          sharp(req.files['photo1'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo1 = data }).catch(err => { errors.push({ msg: err }) });
         }
         if (req.files['photo2']) {
-          sharp(req.files['photo2'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo2 = data}).catch( err => { errors.push({ msg: err })});;
+          sharp(req.files['photo2'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo2 = data }).catch(err => { errors.push({ msg: err }) });;
         }
         if (req.files['photo3']) {
-          sharp(req.files['photo3'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo3 = data}).catch( err => { errors.push({ msg: err })});;
+          sharp(req.files['photo3'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo3 = data }).catch(err => { errors.push({ msg: err }) });;
         }
         if (req.files['photo4']) {
-          sharp(req.files['photo4'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo4 = data}).catch( err => { errors.push({ msg: err })});;
+          sharp(req.files['photo4'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo4 = data }).catch(err => { errors.push({ msg: err }) });;
         }
         if (req.files['doc1']) {
           if (req.files['doc1'][0]) {
@@ -131,12 +137,12 @@ router.post('/register', cpUpload, async (req, res) => {
                   <b>Pranavam Matrimony</b></p>`,
                 }
                 var message = `Thank you ${user.fname}.${user.lname}. Your registeration is completed. We will contact you soon.`;
-                msg91.sendOne(authkey, user.phone, message, senderid, route, dialcode, function (response) {
-                  sgMail.send(msg).then(resp => console.log(resp)).catch(err => console.log(err));
-                  sgMail.send(msg2).then(resp => console.log(resp)).catch(err => console.log(err));
-                  //Returns Message ID, If Sent Successfully or the appropriate Error Message
-                  console.log(response);
-                });
+                // msg91.sendOne(authkey, user.phone, message, senderid, route, dialcode, function (response) {
+                //   sgMail.send(msg).then(resp => console.log(resp)).catch(err => console.log(err));
+                //   sgMail.send(msg2).then(resp => console.log(resp)).catch(err => console.log(err));
+                //   //Returns Message ID, If Sent Successfully or the appropriate Error Message
+                //   console.log(response);
+                // });
                 req.flash(
                   'success_msg',
                   'You are now registered and can log in'
@@ -181,16 +187,16 @@ router.post('/update/:id', cpUpload, (req, res) => {
     bcrypt.hash(password, salt, (err, hash) => {
       const fields = { fname: fname, lname: lname, phone: phone, email: email, dob: dob, religion: religion, caste: caste, subcaste: subcaste, gender: gender, password: hash, mothertongue: mothertongue, marital: marital, height: height, financial: financial, type: type, values: values, education: education, employed: employed, occupation: occupation, salary: salary, about: about };
       if (req.files['photo1']) {
-        sharp(req.files['photo1'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo1 = data}).catch( err => { errors.push({ msg: err })});
+        sharp(req.files['photo1'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo1 = data }).catch(err => { errors.push({ msg: err }) });
       }
       if (req.files['photo2']) {
-        sharp(req.files['photo2'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo2 = data}).catch( err => { errors.push({ msg: err })});;
+        sharp(req.files['photo2'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo2 = data }).catch(err => { errors.push({ msg: err }) });;
       }
       if (req.files['photo3']) {
-        sharp(req.files['photo3'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo3 = data}).catch( err => { errors.push({ msg: err })});;
+        sharp(req.files['photo3'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo3 = data }).catch(err => { errors.push({ msg: err }) });;
       }
       if (req.files['photo4']) {
-        sharp(req.files['photo4'][0].buffer).resize(200).png().toBuffer().then( data => {newUser.photo4 = data}).catch( err => { errors.push({ msg: err })});;
+        sharp(req.files['photo4'][0].buffer).resize(200).png().toBuffer().then(data => { newUser.photo4 = data }).catch(err => { errors.push({ msg: err }) });;
       }
       if (req.files['doc1']) {
         if (req.files['doc1'][0]) {
