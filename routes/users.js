@@ -221,7 +221,7 @@ router.post('/update/:id', cpUpload, (req, res) => {
 });
 router.post('/reset', (req, res) => {
   User.findOne({ email: req.body.email }, (err, response) => {
-    if(!err){
+    if(response){
       var human_id = response._id.toString().substr(0, 7);
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(human_id, salt, (err, hash) => {
@@ -246,7 +246,7 @@ router.post('/reset', (req, res) => {
         });
       });
     }else{
-      req.flash('errorMessage', 'User not found!');
+      req.flash('error_msg', 'User not found!');
       res.redirect('/users/login');
     }
   })
